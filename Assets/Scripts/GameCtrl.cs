@@ -14,6 +14,8 @@ public enum EColor
     Green,
     Yellow,
     Blue,
+    Purple,
+    White,
 }
 
 public interface IPoolable

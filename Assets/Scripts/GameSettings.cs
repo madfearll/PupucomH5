@@ -28,7 +28,7 @@ public class LevelInfo
     public float time;
     public float spawnIntervalMin = 2;
     public float spawnIntervalMax = 3f;
-    [Range(1, 4)] public int colorCount = 2;
+    [Range(1, 6)] public int colorCount = 2;
     public List<ESpawnPosition> spawnPositionList = new() {ESpawnPosition.Left, ESpawnPosition.Right};
     public float speedMin = 2f;
     public float speedMax = 3f;
