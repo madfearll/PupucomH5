@@ -17,10 +17,12 @@ public class LevelCtrl : MonoBehaviour
         m_settings = GameCtrl.Inst.Settings;
         m_currentLevel = m_settings.levelInfoList[0];
         _ResetSpawnTimer();
+        
     }
 
     private void Update()
     {
+        if (GameCtrl.Inst.GameEnd) return;
         _UpdateLevel();
         _UpdateSpawn();
     }
@@ -33,7 +35,6 @@ public class LevelCtrl : MonoBehaviour
             if (m_timer > levelInfo.time) m_currentLevel = levelInfo;
         }
     }
-    
 
     private void _UpdateSpawn()
     {
@@ -60,4 +61,6 @@ public class LevelCtrl : MonoBehaviour
         var targetAngle = (int) spawnType * 45f + Random.Range(-22.5f, 22.5f);
         return Quaternion.Euler(new Vector3(0, 0, targetAngle)) * Vector3.right * m_settings.spawnDistance;
     }
+
+
 }

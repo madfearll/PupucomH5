@@ -27,6 +27,9 @@ public class GameCtrl : MonoBehaviour
     [SerializeField] private GameSettings _settings;
     [SerializeField] private CinemachineImpulseSource _impulse;
     [SerializeField] private TMP_Text _score;
+    [SerializeField] private CinemachineVirtualCamera _cmDead;
+    [SerializeField] private SpriteRenderer _boardSprite;
+    [SerializeField] private Transform _cross;
 
     public static GameCtrl Inst { get; private set; }
 
@@ -52,17 +55,62 @@ public class GameCtrl : MonoBehaviour
 
     public int ComboScore => _GetComboInfo().score;
     public Color ComboColor => _GetComboInfo().color;
+    public bool GameEnd { get; private set; }
 
     private Transform m_pool;
+
     private void Awake()
     {
         Inst = this;
         m_pool = new GameObject("Pool").transform;
+        
     }
 
     private void Start()
     {
+        Time.timeScale = 1;
+        
         _score.text = $"SCORE: {m_score:N0}";
+
+        _boardSprite.DOFade(0f, 0.6f).SetLoops(-1, LoopType.Yoyo);
+        // _boardSprite.transform.DOLocalRotate(new Vector3(0, 0, 360f), 10f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear)
+        //     .SetLoops(-1, LoopType.Restart);
+
+        _cross.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (GameEnd) return;
+        _UpdateGameState();
+    }
+
+    private void _UpdateGameState()
+    {
+        var showBoarder = false;
+        foreach (var bubble in Group.BubbleList)
+        {
+            var radius = (bubble.transform.position - Group.transform.position).magnitude;
+            if (radius > _settings.boarderRadius)
+            {
+                //不在屏幕内，游戏结束
+                GameEnd = true;
+                Time.timeScale = 0.5f;
+                _cmDead.Follow = bubble.transform;
+                _cmDead.Priority = 20;
+                _cross.gameObject.SetActive(true);
+                _cross.position = bubble.transform.position;
+            }
+            else
+            {
+                if (_settings.boarderRadius - radius < 2f)
+                {
+                    showBoarder = true;
+                }
+            }
+        }
+
+        _boardSprite.gameObject.SetActive(showBoarder);
     }
 
     public GameObject Spawn(string prefabName, Transform parent = null)

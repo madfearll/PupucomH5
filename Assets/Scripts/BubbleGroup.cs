@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,6 +14,7 @@ public class BubbleGroup : MonoBehaviour
     public BubbleItem this[int x, int y] => GetBubble(x, y);
     public List<BubbleItem> BubbleList { get; private set; } = new(); //所有的节点
     public Vector2 CellSize { get; private set; }
+    public float Radius { get; private set; }
 
     //三消相关变量
     private List<BubbleItem> m_toMatchList = new();
@@ -35,6 +37,7 @@ public class BubbleGroup : MonoBehaviour
 
     protected void Update()
     {
+        if (GameCtrl.Inst.GameEnd) return;
         _UpdateMatch();
     }
 
@@ -58,12 +61,16 @@ public class BubbleGroup : MonoBehaviour
         bubble.transform.parent = m_tile.transform;
         m_toMatchList.Add(bubble);
         BubbleList.Add(bubble);
+        
+        _RefreshRadius();
     }
 
     public void RemoveBubble(BubbleItem bubble)
     {
         m_toMatchList.Remove(bubble);
         BubbleList.Remove(bubble);
+        
+        _RefreshRadius();
     }
 
     public BubbleItem CreateBubble(string bubbleName)
@@ -76,6 +83,18 @@ public class BubbleGroup : MonoBehaviour
         GameCtrl.Inst.Despawn(bubble);
         BubbleList.Remove(bubble);
         m_toMatchList.Remove(bubble);
+        
+        _RefreshRadius();
+    }
+
+    private void _RefreshRadius()
+    {
+        Radius = 0;
+        foreach (var bubble in BubbleList)
+        {
+            var radius = (bubble.transform.position - transform.position).magnitude;
+            if (radius > Radius) Radius = radius;
+        }
     }
 
     public virtual void ApplyImpact(Vector2 impactPoint, float impactForce)

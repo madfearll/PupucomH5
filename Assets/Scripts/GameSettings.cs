@@ -9,6 +9,7 @@ public class GameSettings : ScriptableObject
     [Title("level")] public float spawnDistance = 10f;
     public List<LevelInfo> levelInfoList;
     public List<ComboInfo> comboInfoList;
+    public float boarderRadius = 6.5f;
 
     [Title("effect")]
     [Range(0.1f, 20f)] public float spring = 5;
