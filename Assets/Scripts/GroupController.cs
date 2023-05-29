@@ -22,6 +22,8 @@ public class GroupController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (GameCtrl.Inst.GameEnd) return;
+        
         if (Input.GetMouseButtonDown(0))
         {
             m_inputDownDir = _GetMouseDirection(Input.mousePosition);
