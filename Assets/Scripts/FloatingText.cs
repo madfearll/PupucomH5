@@ -35,7 +35,7 @@ public class FloatingText : MonoBehaviour, IPoolable
         {
             m_text.DOFade(0, 0.25f).SetDelay(2f);
         });
-        transform.DOMove(position + Vector3.up * 2f, 3f).OnComplete(() =>
+        transform.DOMove(position + Vector3.up * 3f, 3f).OnComplete(() =>
         {
             GameCtrl.Inst.Despawn(this);
         });
