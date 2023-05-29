@@ -44,6 +44,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1388105873006874135}
+  - component: {fileID: -6261644995738225833}
   m_Layer: 0
   m_Name: BubbleExplosion
   m_TagString: Untagged
@@ -67,6 +68,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6261644995738225833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388105873006874136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b701c3e26824f14fa3baf8b5e0f421d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: 0
 --- !u!1 &1388105873042167638
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,7 +98,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1388105873042167637
 Transform:
   m_ObjectHideFlags: 0
@@ -170,6 +184,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9ec5b4f4062be3d4d9573a7ae9d84b16, type: 3}
   - {fileID: 21300000, guid: 5e4ee8470ae7e9c4d98128346bfb5d61, type: 3}
   - {fileID: 21300000, guid: b787f81466a1a634c91d374a4b187005, type: 3}
+  - {fileID: 0}
   _loop: 0
 --- !u!1 &3199582007473190646
 GameObject:
@@ -274,6 +289,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9ec5b4f4062be3d4d9573a7ae9d84b16, type: 3}
   - {fileID: 21300000, guid: 5e4ee8470ae7e9c4d98128346bfb5d61, type: 3}
   - {fileID: 21300000, guid: b787f81466a1a634c91d374a4b187005, type: 3}
+  - {fileID: 0}
   _loop: 0
 --- !u!1 &3967689808653807894
 GameObject:
@@ -378,6 +394,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9ec5b4f4062be3d4d9573a7ae9d84b16, type: 3}
   - {fileID: 21300000, guid: 5e4ee8470ae7e9c4d98128346bfb5d61, type: 3}
   - {fileID: 21300000, guid: b787f81466a1a634c91d374a4b187005, type: 3}
+  - {fileID: 0}
   _loop: 0
 --- !u!1 &7415371518861888204
 GameObject:
@@ -482,4 +499,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9ec5b4f4062be3d4d9573a7ae9d84b16, type: 3}
   - {fileID: 21300000, guid: 5e4ee8470ae7e9c4d98128346bfb5d61, type: 3}
   - {fileID: 21300000, guid: b787f81466a1a634c91d374a4b187005, type: 3}
+  - {fileID: 0}
   _loop: 0

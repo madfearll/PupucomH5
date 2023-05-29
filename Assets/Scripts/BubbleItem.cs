@@ -18,6 +18,7 @@ public class BubbleItem : ColorItem, IPoolable
     private Vector2 m_springForce;
     private Vector2 m_springVelocity;
     private GameSettings m_settings;
+    private Vector3 m_prevPos;
 
     public virtual Vector3Int CellPosition
     {
@@ -44,6 +45,7 @@ public class BubbleItem : ColorItem, IPoolable
 
     protected virtual void Update()
     {
+        _UpdateRotateForce();//temp，应该做成position damp
         _UpdateSpring();
     }
 
@@ -60,6 +62,7 @@ public class BubbleItem : ColorItem, IPoolable
         transform.position = position;
         Color = color;
         m_body.velocity = vel;
+        m_prevPos = position;
     }
 
     public virtual void OnSpawned()
@@ -104,7 +107,7 @@ public class BubbleItem : ColorItem, IPoolable
         explosion.Color = Color;
         explosion.transform.position = transform.position;
         this.SetTimeout(() => GameCtrl.Inst.Despawn(explosion), 2);
-        m_group.ApplyImpact(transform.position, 2.5f);
+        m_group.ApplyImpact(transform.position, m_settings.matchImpactForce);
         m_group.DestroyBubble(this);
     }
 
@@ -127,6 +130,14 @@ public class BubbleItem : ColorItem, IPoolable
     public void ApplyImpact(Vector3 pos, float impactForce)
     {
         m_group.ApplyImpact(pos, impactForce);
+    }
+
+    private void _UpdateRotateForce()
+    {
+        if (!m_group) return;
+        var force = (transform.position - m_prevPos) / Time.deltaTime;
+        AddForce(force * m_settings.rotateForce);
+        m_prevPos = transform.position;
     }
     
     private void _UpdateSpring()
@@ -153,25 +164,28 @@ public class BubbleItem : ColorItem, IPoolable
     private void _StickToBubble(BubbleItem other)
     {
         m_group = other.m_group;
-        var cellPos = m_group.WorldToCell(other.transform.position);
-        Vector2 backPos = other.transform.position;
-        var dir = Velocity.normalized;
-        if (dir == Vector2.zero)
+        var cellPos = m_group.WorldToCell(transform.position);
+        Vector2 backPos = transform.position;
+        var impactDir = Velocity.normalized;
+        if (impactDir == Vector2.zero)
         {
-            dir = (transform.position - m_group.transform.position).normalized;
+            impactDir = (transform.position - m_group.transform.position).normalized;
         }
-        
+
         //如果该位置有东西，则往后退
         while (m_group[cellPos.x, cellPos.y])
         {
-            backPos -= dir * m_group.CellSize.y * 0.5f;
+            backPos -= impactDir * m_group.CellSize.y * 0.5f;
             cellPos = m_group.WorldToCell(backPos);
+            //cellPos += backDir;
         }
         
         m_group.AddBubble(this);
-        CellPosition = cellPos;
+
+        var targetPos = m_group.CellToLocal(cellPos);
+        transform.DOLocalMove(targetPos, 0.1f);
         OnInsert();
-        m_group.ApplyImpact(m_group.CellToWorld(cellPos), 2f);
+        m_group.ApplyImpact(m_group.CellToWorld(cellPos), m_settings.stickImpactForce);
         GameCtrl.Inst.PlaySfx(Constants.SFX_GENERATE);
     }
 }

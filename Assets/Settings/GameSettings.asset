@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a81cb90f4482a4fb0d450ad278ef90, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  spring: 5
-  damp: 0.9
-  maxForce: 6
+  levelInfoList: []
+  spring: 1
+  damp: 0.98
+  maxForce: 8
+  rotateForce: 0.001
+  stickImpactForce: 3
+  matchImpactForce: 5

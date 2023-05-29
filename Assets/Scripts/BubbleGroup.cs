@@ -29,7 +29,7 @@ public class BubbleGroup : MonoBehaviour
 
     protected void Update()
     {
-        //_UpdateMatch();
+        _UpdateMatch();
     }
 
     public Vector3Int WorldToCell(Vector3 position) => m_tile.WorldToCell(position);
@@ -74,7 +74,7 @@ public class BubbleGroup : MonoBehaviour
 
     public virtual void ApplyImpact(Vector2 impactPoint, float impactForce)
     {
-        var impactRange = CellSize.y * 6f;
+        var impactRange = CellSize.y * 10f;
         foreach (var bubbleItem in BubbleList)
         {
             var direction = (Vector2) bubbleItem.transform.position - impactPoint;
