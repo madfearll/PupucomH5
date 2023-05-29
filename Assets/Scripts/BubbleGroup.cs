@@ -27,6 +27,11 @@ public class BubbleGroup : MonoBehaviour
         GetComponentsInChildren(BubbleList);
     }
 
+    private void Start()
+    {
+        GameCtrl.Inst.Group = this;
+    }
+
     protected void Update()
     {
         _UpdateMatch();
@@ -131,6 +136,15 @@ public class BubbleGroup : MonoBehaviour
 
     protected virtual void OnMatched()
     {
+        if (m_result.Count == 0) return;
+        var pos = Vector3.zero;
+        foreach (var bubble in m_result)
+        {
+            pos += bubble.transform.position;
+        }
+        pos /= m_result.Count;
+        GameCtrl.Inst.ApplyCameraImpulse((pos - transform.position).normalized * 1.5f);
+        
         GameCtrl.Inst.PlaySfx(Constants.SFX_MATCH);
     }
 

@@ -12,7 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a81cb90f4482a4fb0d450ad278ef90, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  levelInfoList: []
+  spawnDistance: 8
+  levelInfoList:
+  - time: 0
+    spawnIntervalMin: 2
+    spawnIntervalMax: 3
+    colorCount: 2
+    spawnPositionList: 0400000000000000
+    speedMin: 1
+    speedMax: 1.2
   spring: 1
   damp: 0.98
   maxForce: 8

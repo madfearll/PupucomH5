@@ -166,6 +166,7 @@ public class BubbleItem : ColorItem, IPoolable
         m_group = other.m_group;
         var cellPos = m_group.WorldToCell(transform.position);
         Vector2 backPos = transform.position;
+        var impactSpeed = Velocity.magnitude;
         var impactDir = Velocity.normalized;
         if (impactDir == Vector2.zero)
         {
@@ -185,7 +186,7 @@ public class BubbleItem : ColorItem, IPoolable
         var targetPos = m_group.CellToLocal(cellPos);
         transform.DOLocalMove(targetPos, 0.1f);
         OnInsert();
-        m_group.ApplyImpact(m_group.CellToWorld(cellPos), m_settings.stickImpactForce);
+        m_group.ApplyImpact(m_group.CellToWorld(cellPos), m_settings.stickImpactForce * impactSpeed / 5f);//temp，假定球的最大速度为5
         GameCtrl.Inst.PlaySfx(Constants.SFX_GENERATE);
     }
 }

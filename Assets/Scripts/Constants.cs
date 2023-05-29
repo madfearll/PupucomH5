@@ -6,5 +6,5 @@ public static class Constants
 {
     public static readonly string SFX_GENERATE = "Generate";
     public static readonly string SFX_MATCH = "Match";
-    public static readonly List<EColor> COLOR_LIST = new() {EColor.Blue, EColor.Green, EColor.Red, EColor.Yellow};
+    public static readonly List<EColor> COLOR_LIST = new() {EColor.Red, EColor.Blue, EColor.Yellow, EColor.Green};
 }

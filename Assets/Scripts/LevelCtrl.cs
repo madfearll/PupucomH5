@@ -2,26 +2,62 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LevelCtrl : MonoBehaviour
 {
     private GameSettings m_settings;
 
     private float m_timer;
-    
+    private float m_spawnTimer;
+    private LevelInfo m_currentLevel;
+
     private void Start()
     {
         m_settings = GameCtrl.Inst.Settings;
+        m_currentLevel = m_settings.levelInfoList[0];
+        _ResetSpawnTimer();
     }
 
     private void Update()
     {
+        _UpdateLevel();
+        _UpdateSpawn();
+    }
+
+    private void _UpdateLevel()
+    {
         m_timer += Time.deltaTime;
-        if (m_timer > 1)
+        foreach (var levelInfo in m_settings.levelInfoList)
         {
-            m_timer = 0;
-            var bubble = GameCtrl.Inst.Spawn<BubbleItem>("Bubble");
-            bubble.Init(Vector3.right * 10, Constants.COLOR_LIST.Random(), Vector2.left * 2);
+            if (m_timer > levelInfo.time) m_currentLevel = levelInfo;
         }
+    }
+    
+
+    private void _UpdateSpawn()
+    {
+        m_spawnTimer -= Time.deltaTime;
+        if (m_spawnTimer < 0)
+        {
+            _ResetSpawnTimer();
+            var bubble = GameCtrl.Inst.Spawn<BubbleItem>("Bubble");
+            var position = _GetSpawnPosition(m_currentLevel.spawnPositionList.Random());
+            var vel = (GameCtrl.Inst.Group.transform.position - position).normalized *
+                      Random.Range(m_currentLevel.speedMin, m_currentLevel.speedMax);
+            var color = Constants.COLOR_LIST[Random.Range(0, m_currentLevel.colorCount)];
+            bubble.Init(position, color, vel);
+        }
+    }
+
+    private void _ResetSpawnTimer()
+    {
+        m_spawnTimer = Random.Range(m_currentLevel.spawnIntervalMin, m_currentLevel.spawnIntervalMax);
+    }
+
+    private Vector3 _GetSpawnPosition(ESpawnPosition spawnType)
+    {
+        var targetAngle = (int) spawnType * 45f + Random.Range(-22.5f, 22.5f);
+        return Quaternion.Euler(new Vector3(0, 0, targetAngle)) * Vector3.right * m_settings.spawnDistance;
     }
 }

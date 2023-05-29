@@ -28,6 +28,7 @@ public class GameCtrl : MonoBehaviour
     public static GameCtrl Inst { get; private set; }
 
     public GameSettings Settings => _settings;
+    public BubbleGroup Group { get; set; }
 
     private Transform m_pool;
     private void Awake()
@@ -94,7 +95,7 @@ public class GameCtrl : MonoBehaviour
         
     }
     
-    public void ApplyImpulse(Vector2 vel)
+    public void ApplyCameraImpulse(Vector2 vel)
     {
         _impulse.GenerateImpulseWithVelocity(vel);
     }
