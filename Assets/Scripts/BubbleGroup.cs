@@ -17,7 +17,8 @@ public class BubbleGroup : MonoBehaviour
     //三消相关变量
     private List<BubbleItem> m_toMatchList = new();
     private Stack<BubbleItem> m_stack = new();
-    private List<BubbleItem> m_result = new();
+    private List<BubbleItem> m_matched = new();//被三消的球
+    private List<BubbleItem> m_disconnected = new();//断开连接的球
 
     protected virtual void Awake()
     {
@@ -100,33 +101,38 @@ public class BubbleGroup : MonoBehaviour
         for (int i = m_toMatchList.Count - 1; i >= 0; i--)
         {
             var start = m_toMatchList[i];
-            m_result.Clear();
+            m_matched.Clear();
             m_stack.Clear();
             m_stack.Push(start);
-            m_result.Add(start);
+            m_matched.Add(start);
 
             while (m_stack.Count > 0)
             {
                 var bubble = m_stack.Pop();
                 foreach (var neighbour in bubble.GetNeighbours())
                 {
-                    if (neighbour.Color != bubble.Color || m_result.Contains(neighbour)) continue;
+                    if (neighbour.Color != bubble.Color || m_matched.Contains(neighbour)) continue;
 
                     m_stack.Push(neighbour);
-                    m_result.Add(neighbour);
+                    m_matched.Add(neighbour);
                 }
             }
 
-            if (m_result.Count >= 3)
+            if (m_matched.Count >= 3)
             {
-                foreach (var bubble in m_result)
+                _RefreshDisconnectedBubbles();
+
+                GameCtrl.Inst.Combo = m_matched.Count + m_disconnected.Count;
+                
+                foreach (var bubble in m_matched)
                 {
                     bubble.OnMatch();
                 }
-
-                _DropDisconnectedBubbles();
-                //GameCtrl.Inst.ApplyImpulse( 0.1f, 0.15f);
-
+                foreach (var bubble in m_disconnected)
+                {
+                    bubble.OnDisconnect();
+                }
+                
                 OnMatched();
             }
         }
@@ -136,20 +142,21 @@ public class BubbleGroup : MonoBehaviour
 
     protected virtual void OnMatched()
     {
-        if (m_result.Count == 0) return;
+        if (m_matched.Count == 0) return;
         var pos = Vector3.zero;
-        foreach (var bubble in m_result)
+        foreach (var bubble in m_matched)
         {
             pos += bubble.transform.position;
         }
-        pos /= m_result.Count;
+        pos /= m_matched.Count;
         GameCtrl.Inst.ApplyCameraImpulse((pos - transform.position).normalized * 1.5f);
         
         GameCtrl.Inst.PlaySfx(Constants.SFX_MATCH);
     }
 
-    private void _DropDisconnectedBubbles()
+    private void _RefreshDisconnectedBubbles()
     {
+        m_disconnected.Clear();
         var origin = GetBubble(0, 0);
         var connectedList = new List<BubbleItem>();
         m_stack.Clear();
@@ -161,7 +168,7 @@ public class BubbleGroup : MonoBehaviour
             var bubble = m_stack.Pop();
             foreach (var neighbour in bubble.GetNeighbours())
             {
-                if (connectedList.Contains(neighbour)) continue;
+                if (connectedList.Contains(neighbour) || m_matched.Contains(neighbour)) continue;
                 m_stack.Push(neighbour);
                 connectedList.Add(neighbour);
             }
@@ -170,7 +177,10 @@ public class BubbleGroup : MonoBehaviour
         for (var i = BubbleList.Count - 1; i >= 0; i--)
         {
             var bubble = BubbleList[i];
-            if (!connectedList.Contains(bubble)) bubble.OnDisconnect();
+            if (!connectedList.Contains(bubble) && !m_matched.Contains(bubble))
+            {
+                m_disconnected.Add(bubble);
+            }
         }
     }
 }

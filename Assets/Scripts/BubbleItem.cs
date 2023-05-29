@@ -112,6 +112,8 @@ public class BubbleItem : ColorItem, IPoolable
         this.SetTimeout(() => GameCtrl.Inst.Despawn(explosion), 2);
         m_group.ApplyImpact(transform.position, m_settings.matchImpactForce);
         m_group.DestroyBubble(this);
+
+        _AddScore();
     }
 
     public virtual void OnDisconnect()
@@ -131,6 +133,10 @@ public class BubbleItem : ColorItem, IPoolable
             Vector3.up * m_settings.disconnectImpulse,//多叠加一个向上的impulse增强表现
             ForceMode2D.Impulse);
         this.SetTimeout(() => GameCtrl.Inst.Despawn(this), 3f);
+        
+        m_group = null;
+        
+        _AddScore();
     }
 
     public virtual void AddForce(Vector2 force)
@@ -200,6 +206,14 @@ public class BubbleItem : ColorItem, IPoolable
         OnInsert();
         m_group.ApplyImpact(m_group.CellToWorld(cellPos), m_settings.stickImpactForce * impactSpeed / 5f);//temp，假定球的最大速度为5
         GameCtrl.Inst.PlaySfx(Constants.SFX_GENERATE);
+    }
+    
+    private void _AddScore()
+    {
+        var score = GameCtrl.Inst.ComboScore;
+        GameCtrl.Inst.Score += score;
+        var floatingText = GameCtrl.Inst.Spawn<FloatingText>("FloatingText");
+        floatingText.Init("+" + score, transform.position, GameCtrl.Inst.ComboColor);
     }
 }
 

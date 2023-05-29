@@ -8,6 +8,7 @@ public class GameSettings : ScriptableObject
 {
     [Title("level")] public float spawnDistance = 10f;
     public List<LevelInfo> levelInfoList;
+    public List<ComboInfo> comboInfoList;
 
     [Title("effect")]
     [Range(0.1f, 20f)] public float spring = 5;
@@ -42,4 +43,12 @@ public enum ESpawnPosition
     BottomLeft,
     Bottom,
     BottomRight,
+}
+
+[System.Serializable]
+public class ComboInfo
+{
+    public int combo = 1;
+    public Color color = Color.white;
+    public int score = 100;
 }

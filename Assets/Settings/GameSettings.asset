@@ -15,16 +15,29 @@ MonoBehaviour:
   spawnDistance: 10
   levelInfoList:
   - time: 0
-    spawnIntervalMin: 2
-    spawnIntervalMax: 3
-    colorCount: 3
-    spawnPositionList: 0400000000000000
-    speedMin: 2
-    speedMax: 3
+    spawnIntervalMin: 0.2
+    spawnIntervalMax: 0.6
+    colorCount: 4
+    spawnPositionList: 04000000000000000200000006000000
+    speedMin: 10
+    speedMax: 12
+  comboInfoList:
+  - combo: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
+    score: 100
+  - combo: 6
+    color: {r: 0.08954792, g: 0.8867924, b: 0, a: 1}
+    score: 300
+  - combo: 10
+    color: {r: 1, g: 0, b: 0.5134144, a: 1}
+    score: 500
+  - combo: 15
+    color: {r: 1, g: 0.73936063, b: 0, a: 1}
+    score: 100
   spring: 1
   damp: 0.98
   maxForce: 8
-  rotateForce: 0.001
+  rotateForce: 0.008
   stickImpactForce: 3
   matchImpactForce: 5
   disconnectImpulse: 12
