@@ -170,7 +170,7 @@ public class BubbleGroup : MonoBehaviour
         for (var i = BubbleList.Count - 1; i >= 0; i--)
         {
             var bubble = BubbleList[i];
-            if (!connectedList.Contains(bubble)) bubble.OnDrop();
+            if (!connectedList.Contains(bubble)) bubble.OnDisconnect();
         }
     }
 }

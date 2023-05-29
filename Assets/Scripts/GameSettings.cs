@@ -16,6 +16,7 @@ public class GameSettings : ScriptableObject
     public float rotateForce = 0.5f;
     public float stickImpactForce = 2.5f;
     public float matchImpactForce = 2f;
+    public float disconnectImpulse = 5f;
 }
 
 

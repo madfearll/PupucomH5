@@ -19,6 +19,7 @@ public class BubbleItem : ColorItem, IPoolable
     private Vector2 m_springVelocity;
     private GameSettings m_settings;
     private Vector3 m_prevPos;
+    private bool m_isDisconnected = false;
 
     public virtual Vector3Int CellPosition
     {
@@ -51,7 +52,7 @@ public class BubbleItem : ColorItem, IPoolable
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (m_group != null) return;//已经被黏住了
+        if (m_group != null || m_isDisconnected) return;
         var other = col.GetComponent<BubbleItem>();
         if (other == null || other.m_group == null) return;//对方不是被黏住的球
         _StickToBubble(other);
@@ -75,6 +76,8 @@ public class BubbleItem : ColorItem, IPoolable
         m_springVelocity = Vector2.zero;
         m_root.localPosition = Vector3.zero;
         m_root.localScale = Vector3.one;
+        m_isDisconnected = false;
+        m_body.gravityScale = 0;
     }
 
     public virtual void OnDespawned()
@@ -111,14 +114,23 @@ public class BubbleItem : ColorItem, IPoolable
         m_group.DestroyBubble(this);
     }
 
-    public virtual void OnDrop()
+    public virtual void OnDisconnect()
     {
         var position = transform.TransformPoint(m_root.localPosition);
         m_root.localPosition = Vector3.zero;
         transform.position = position;
         m_springForce = Vector2.zero;
         m_springVelocity = Vector2.zero;
-        m_group.DestroyBubble(this);
+        m_group.RemoveBubble(this);
+
+        transform.parent = null;
+        m_isDisconnected = true;
+        m_body.gravityScale = 1;
+        m_body.AddForce(
+            (position - m_group.transform.position).normalized * m_settings.disconnectImpulse +
+            Vector3.up * m_settings.disconnectImpulse,//多叠加一个向上的impulse增强表现
+            ForceMode2D.Impulse);
+        this.SetTimeout(() => GameCtrl.Inst.Despawn(this), 3f);
     }
 
     public virtual void AddForce(Vector2 force)
