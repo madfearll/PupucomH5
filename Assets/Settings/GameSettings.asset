@@ -15,25 +15,181 @@ MonoBehaviour:
   spawnDistance: 10
   levelInfoList:
   - time: 0
-    spawnIntervalMin: 0.2
-    spawnIntervalMax: 0.6
+    spawnIntervalMin: 1
+    spawnIntervalMax: 1.4
+    colorCount: 2
+    spawnPositionList: 
+    spawnRange: 45
+    speedMin: 3.5
+    speedMax: 3.5
+  - time: 15
+    spawnIntervalMin: 0.8
+    spawnIntervalMax: 1.2
+    colorCount: 2
+    spawnPositionList: 
+    spawnRange: 45
+    speedMin: 3.5
+    speedMax: 3.5
+  - time: 30
+    spawnIntervalMin: 0.8
+    spawnIntervalMax: 1.2
+    colorCount: 3
+    spawnPositionList: 
+    spawnRange: 60
+    speedMin: 3.5
+    speedMax: 3.5
+  - time: 50
+    spawnIntervalMin: 0.8
+    spawnIntervalMax: 1.2
     colorCount: 4
-    spawnPositionList: 04000000000000000200000006000000
-    speedMin: 10
-    speedMax: 12
+    spawnPositionList: 
+    spawnRange: 90
+    speedMin: 3.5
+    speedMax: 3.5
+  - time: 70
+    spawnIntervalMin: 0.8
+    spawnIntervalMax: 1.2
+    colorCount: 4
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 4
+    speedMax: 4
+  - time: 90
+    spawnIntervalMin: 0.8
+    spawnIntervalMax: 1.2
+    colorCount: 4
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 4
+    speedMax: 4.5
+  - time: 120
+    spawnIntervalMin: 0.8
+    spawnIntervalMax: 1
+    colorCount: 4
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 4
+    speedMax: 4.5
+  - time: 160
+    spawnIntervalMin: 0.8
+    spawnIntervalMax: 1
+    colorCount: 5
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 4
+    speedMax: 4.5
+  - time: 220
+    spawnIntervalMin: 0.8
+    spawnIntervalMax: 1
+    colorCount: 5
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 4.5
+    speedMax: 5
+  - time: 340
+    spawnIntervalMin: 0.6
+    spawnIntervalMax: 0.8
+    colorCount: 5
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 4.5
+    speedMax: 5
+  - time: 520
+    spawnIntervalMin: 0.6
+    spawnIntervalMax: 0.8
+    colorCount: 6
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 4.5
+    speedMax: 5
+  - time: 880
+    spawnIntervalMin: 0.6
+    spawnIntervalMax: 0.8
+    colorCount: 6
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 5
+    speedMax: 5.5
+  - time: 1240
+    spawnIntervalMin: 0.6
+    spawnIntervalMax: 0.8
+    colorCount: 6
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 5.5
+    speedMax: 6
+  - time: 1600
+    spawnIntervalMin: 0.6
+    spawnIntervalMax: 0.8
+    colorCount: 6
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 6
+    speedMax: 8
+  - time: 2000
+    spawnIntervalMin: 0.6
+    spawnIntervalMax: 0.8
+    colorCount: 6
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 8
+    speedMax: 10
   comboInfoList:
   - combo: 1
     color: {r: 1, g: 1, b: 1, a: 1}
     score: 100
+  - combo: 4
+    color: {r: 0.55013406, g: 0.8862745, b: 0, a: 1}
+    score: 200
   - combo: 6
-    color: {r: 0.08954792, g: 0.8867924, b: 0, a: 1}
-    score: 300
-  - combo: 10
-    color: {r: 1, g: 0, b: 0.5134144, a: 1}
+    color: {r: 1, g: 0.9020722, b: 0, a: 1}
     score: 500
+  - combo: 10
+    color: {r: 1, g: 0.49942008, b: 0, a: 1}
+    score: 1000
   - combo: 15
-    color: {r: 1, g: 0.73936063, b: 0, a: 1}
-    score: 100
+    color: {r: 1, g: 0, b: 0.76400757, a: 1}
+    score: 2000
+  - combo: 20
+    color: {r: 1, g: 0, b: 0, a: 1}
+    score: 5000
+  ratingInfoList:
+  - score: 20000
+    rating: C
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - score: 50000
+    rating: B
+    color: {r: 0.54901963, g: 0.8862745, b: 0, a: 1}
+  - score: 75000
+    rating: B+
+    color: {r: 0.54901963, g: 0.8862745, b: 0, a: 1}
+  - score: 100000
+    rating: A
+    color: {r: 1, g: 0.9019608, b: 0, a: 1}
+  - score: 150000
+    rating: A+
+    color: {r: 1, g: 0.9019608, b: 0, a: 1}
+  - score: 200000
+    rating: S
+    color: {r: 1, g: 0.49803922, b: 0, a: 1}
+  - score: 300000
+    rating: S+
+    color: {r: 1, g: 0.49803922, b: 0, a: 1}
+  - score: 500000
+    rating: SS
+    color: {r: 1, g: 0, b: 0.7647059, a: 1}
+  - score: 800000
+    rating: SS+
+    color: {r: 1, g: 0, b: 0.7647059, a: 1}
+  - score: 1200000
+    rating: SSS
+    color: {r: 1, g: 0, b: 0, a: 1}
+  - score: 2000000
+    rating: SSS+
+    color: {r: 1, g: 0, b: 0, a: 1}
+  boarderRadius: 6.5
+  inputType: 0
+  slideRange: 360
   spring: 1
   damp: 0.98
   maxForce: 8
