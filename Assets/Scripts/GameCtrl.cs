@@ -89,7 +89,7 @@ public class GameCtrl : MonoBehaviour
     {
         Inst = this;
         m_pool = new GameObject("Pool").transform;
-        
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
