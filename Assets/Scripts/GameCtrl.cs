@@ -48,11 +48,18 @@ public class GameCtrl : MonoBehaviour
     [SerializeField] private TMP_Text _rating;
     [SerializeField] private TMP_Text _gameEndScore;
     [SerializeField] private TMP_Text _bestScore;
+    
+    //stick ui
+    [SerializeField] private GameObject _stickUI;
+    [SerializeField] private RectTransform _joystick;
 
     public static GameCtrl Inst { get; private set; }
 
     public GameSettings Settings => _settings;
     public BubbleGroup Group { get; set; }
+    public GameObject StickUI => _stickUI;
+    public RectTransform Joystick => _joystick;
+    public EInputType InputType => _settings.inputType;
     private int m_score;
 
     public int Score
@@ -103,6 +110,7 @@ public class GameCtrl : MonoBehaviour
         //     .SetLoops(-1, LoopType.Restart);
 
         _cross.gameObject.SetActive(false);
+        StickUI.SetActive(false);
 
         _restartButton.onClick.AddListener(RestartGame);
     }

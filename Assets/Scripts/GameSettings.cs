@@ -71,5 +71,6 @@ public enum EInputType
 {
     Rotate,
     Slide,
+    Joystick,
 }
 

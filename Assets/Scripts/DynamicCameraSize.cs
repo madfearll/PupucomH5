@@ -12,6 +12,7 @@ public class DynamicCameraSize : MonoBehaviour
     {
         m_vCamera = GetComponent<CinemachineVirtualCamera>();
         var originSize = m_vCamera.m_Lens.OrthographicSize;
-        m_vCamera.m_Lens.OrthographicSize = ((float) Screen.height / Screen.width) / (1920f / 1080f) * originSize;
+        m_vCamera.m_Lens.OrthographicSize =
+            Mathf.Max(((float) Screen.height / Screen.width) / (1920f / 1080f) * originSize, originSize);
     }
 }
