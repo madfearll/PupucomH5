@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu]
 public class GameSettings : ScriptableObject
@@ -10,6 +11,8 @@ public class GameSettings : ScriptableObject
     public List<LevelInfo> levelInfoList;
     public List<ComboInfo> comboInfoList;
     public float boarderRadius = 6.5f;
+    public EInputType inputType = EInputType.Rotate;
+    [ShowIf("@inputType == EInputType.Slide")] public float slideRange = 360f;
 
     [Title("effect")]
     [Range(0.1f, 20f)] public float spring = 5;
@@ -52,4 +55,10 @@ public class ComboInfo
     public int combo = 1;
     public Color color = Color.white;
     public int score = 100;
+}
+
+public enum EInputType
+{
+    Rotate,
+    Slide,
 }
