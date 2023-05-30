@@ -43,7 +43,7 @@ public class LevelCtrl : MonoBehaviour
         {
             _ResetSpawnTimer();
             var bubble = GameCtrl.Inst.Spawn<BubbleItem>("Bubble");
-            var position = _GetSpawnPosition(m_currentLevel.spawnPositionList.Random());
+            var position = _GetSpawnPosition();
             var vel = (GameCtrl.Inst.Group.transform.position - position).normalized *
                       Random.Range(m_currentLevel.speedMin, m_currentLevel.speedMax);
             var color = Constants.COLOR_LIST[Random.Range(0, m_currentLevel.colorCount)];
@@ -56,10 +56,11 @@ public class LevelCtrl : MonoBehaviour
         m_spawnTimer = Random.Range(m_currentLevel.spawnIntervalMin, m_currentLevel.spawnIntervalMax);
     }
 
-    private Vector3 _GetSpawnPosition(ESpawnPosition spawnType)
+    private Vector3 _GetSpawnPosition()
     {
-        var targetAngle = (int) spawnType * 45f + Random.Range(-22.5f, 22.5f);
-        return Quaternion.Euler(new Vector3(0, 0, targetAngle)) * Vector3.right * m_settings.spawnDistance;
+        var range = Random.Range(-m_currentLevel.spawnRange * 0.5f, m_currentLevel.spawnRange * 0.5f);
+        var direction = Random.value > 0.5f ? Vector3.up : Vector3.down;
+        return Quaternion.Euler(new Vector3(0, 0, range)) * direction * m_settings.spawnDistance;
     }
 
 
