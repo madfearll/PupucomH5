@@ -224,9 +224,10 @@ public class GameCtrl : MonoBehaviour
         Despawn(component.gameObject);
     }
 
-    public void PlaySfx(string sfx)
+    public void PlaySfx(string sfx, float volume = 0.8f)
     {
-        
+        var audioItem = Spawn<AudioItem>("AudioItem");
+        audioItem.Play(sfx, volume);
     }
     
     public void ApplyCameraImpulse(Vector2 vel)

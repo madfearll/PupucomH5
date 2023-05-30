@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 public class BubbleItem : ColorItem, IPoolable
 {
@@ -171,7 +172,10 @@ public class BubbleItem : ColorItem, IPoolable
         var maxVel = 20f;
         if (m_springVelocity.sqrMagnitude > 0.01f)
         {
-            m_root.localScale = Vector3.one + (Vector3) (m_springVelocity / maxVel);
+            var scale = Vector3.one + (Vector3) (m_springVelocity / maxVel);
+            scale.x = Mathf.Clamp(scale.x, 0.7f, 1.3f);
+            scale.y = Mathf.Clamp(scale.y, 0.7f, 1.3f);
+            m_root.localScale = scale;
         }
         else
         {
@@ -205,7 +209,7 @@ public class BubbleItem : ColorItem, IPoolable
         transform.DOLocalMove(targetPos, 0.1f);
         OnInsert();
         m_group.ApplyImpact(m_group.CellToWorld(cellPos), m_settings.stickImpactForce * impactSpeed / 5f);//temp，假定球的最大速度为5
-        GameCtrl.Inst.PlaySfx(Constants.SFX_GENERATE);
+        GameCtrl.Inst.PlaySfx(Constants.SFX_STICK + Random.Range(1, 3), 0.4f);
     }
     
     private void _AddScore()
