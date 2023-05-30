@@ -45,6 +45,7 @@ public class GameCtrl : MonoBehaviour
     //game end ui
     [SerializeField] private GameObject _gameEndUI;
     [SerializeField] private Button _restartButton;
+    [SerializeField] private TMP_Text _rating;
     [SerializeField] private TMP_Text _gameEndScore;
     [SerializeField] private TMP_Text _bestScore;
 
@@ -136,6 +137,12 @@ public class GameCtrl : MonoBehaviour
                 //set game end ui
                 _gameEndScore.text = $"SCORE: {Score:N0}";
                 _bestScore.text = $"BEST: {HighScore:N0}";
+                var ratingInfo = _GetRatingInfo(Score);
+                if (ratingInfo != null)
+                {
+                    _rating.text = $"RATING: {ratingInfo.rating}";
+                    _rating.color = ratingInfo.color;
+                }
 
                 StartCoroutine(_DoGameEndAnim());
             }
@@ -242,6 +249,17 @@ public class GameCtrl : MonoBehaviour
         }
 
         return comboInfo;
+    }
+
+    private RatingInfo _GetRatingInfo(int score)
+    {
+        RatingInfo info = null;
+        foreach (var ri in _settings.ratingInfoList)
+        {
+            if (score >= ri.score) info = ri;
+        }
+
+        return info;
     }
 
 #if UNITY_EDITOR

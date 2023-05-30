@@ -10,6 +10,7 @@ public class GameSettings : ScriptableObject
     [Title("level")] public float spawnDistance = 10f;
     public List<LevelInfo> levelInfoList;
     public List<ComboInfo> comboInfoList;
+    public List<RatingInfo> ratingInfoList;
     public float boarderRadius = 6.5f;
     public EInputType inputType = EInputType.Rotate;
     [ShowIf("@inputType == EInputType.Slide")] public float slideRange = 360f;
@@ -58,8 +59,17 @@ public class ComboInfo
     public int score = 100;
 }
 
+[System.Serializable]
+public class RatingInfo
+{
+    public int score;
+    public string rating;
+    public Color color = Color.white;
+}
+
 public enum EInputType
 {
     Rotate,
     Slide,
 }
+
