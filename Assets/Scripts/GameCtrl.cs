@@ -6,6 +6,12 @@ using DG.Tweening;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public enum EColor
 {
@@ -28,31 +34,48 @@ public class GameCtrl : MonoBehaviour
 {
     [SerializeField] private GameSettings _settings;
     [SerializeField] private CinemachineImpulseSource _impulse;
-    [SerializeField] private TMP_Text _score;
     [SerializeField] private CinemachineVirtualCamera _cmDead;
     [SerializeField] private SpriteRenderer _boardSprite;
     [SerializeField] private Transform _cross;
+
+    //hud ui
+    [SerializeField] private GameObject _hudUI;
+    [SerializeField] private TMP_Text _hudScore;
+
+    //game end ui
+    [SerializeField] private GameObject _gameEndUI;
+    [SerializeField] private Button _restartButton;
+    [SerializeField] private TMP_Text _gameEndScore;
+    [SerializeField] private TMP_Text _bestScore;
 
     public static GameCtrl Inst { get; private set; }
 
     public GameSettings Settings => _settings;
     public BubbleGroup Group { get; set; }
     private int m_score;
+
     public int Score
     {
         get => m_score;
         set
         {
             var score = m_score;
-            _score.DOKill();
+            _hudScore.DOKill();
             DOTween.To(() => score, s =>
             {
                 score = s;
-                _score.text = $"SCORE: {score:N0}";
-            }, value, 0.5f).SetEase(Ease.Linear).SetTarget(_score);
+                _hudScore.text = $"SCORE: {score:N0}";
+            }, value, 0.5f).SetEase(Ease.Linear).SetTarget(_hudScore);
             m_score = value;
         }
     }
+
+    public int HighScore
+    {
+        get => PlayerPrefs.GetInt("HighScore", 0);
+        set => PlayerPrefs.SetInt("HighScore", value);
+    }
+
     public int Combo { get; set; }
 
     public int ComboScore => _GetComboInfo().score;
@@ -72,13 +95,15 @@ public class GameCtrl : MonoBehaviour
     {
         Time.timeScale = 1;
         
-        _score.text = $"SCORE: {m_score:N0}";
+        _hudScore.text = $"SCORE: {m_score:N0}";
 
         _boardSprite.DOFade(0f, 0.6f).SetLoops(-1, LoopType.Yoyo);
         // _boardSprite.transform.DOLocalRotate(new Vector3(0, 0, 360f), 10f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear)
         //     .SetLoops(-1, LoopType.Restart);
 
         _cross.gameObject.SetActive(false);
+
+        _restartButton.onClick.AddListener(RestartGame);
     }
 
     private void Update()
@@ -102,6 +127,17 @@ public class GameCtrl : MonoBehaviour
                 _cmDead.Priority = 20;
                 _cross.gameObject.SetActive(true);
                 _cross.position = bubble.transform.position;
+
+                if (Score > HighScore)
+                {
+                    HighScore = Score;
+                }
+                
+                //set game end ui
+                _gameEndScore.text = $"SCORE: {Score:N0}";
+                _bestScore.text = $"BEST: {HighScore:N0}";
+
+                StartCoroutine(_DoGameEndAnim());
             }
             else
             {
@@ -113,6 +149,19 @@ public class GameCtrl : MonoBehaviour
         }
 
         _boardSprite.gameObject.SetActive(showBoarder);
+    }
+
+    private IEnumerator _DoGameEndAnim()
+    {
+        yield return new WaitForSecondsRealtime(4);
+        _hudUI.SetActive(false);
+        _gameEndUI.SetActive(true);
+        _restartButton.interactable = false;
+        var canvasGroup = _gameEndUI.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0;
+        canvasGroup.DOFade(1, 0.5f).SetUpdate(true);
+        yield return new WaitForSecondsRealtime(0.5f);
+        _restartButton.interactable = true;
     }
 
     public GameObject Spawn(string prefabName, Transform parent = null)
@@ -178,6 +227,12 @@ public class GameCtrl : MonoBehaviour
         _impulse.GenerateImpulseWithVelocity(vel);
     }
 
+    public void RestartGame()
+    {
+        DOTween.KillAll();
+        SceneManager.LoadScene("Game");
+    }
+
     private ComboInfo _GetComboInfo()
     {
         ComboInfo comboInfo = null;
@@ -188,4 +243,13 @@ public class GameCtrl : MonoBehaviour
 
         return comboInfo;
     }
+
+#if UNITY_EDITOR
+    [MenuItem("Tools/ResetHighScore")]
+    private static void ResetHighScore()
+    {
+        PlayerPrefs.DeleteKey("HighScore");
+        Debug.Log("reset high score success");
+    }
+#endif
 }

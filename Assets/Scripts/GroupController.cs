@@ -45,7 +45,6 @@ public class GroupController : MonoBehaviour
             }
             m_group.transform.eulerAngles = new Vector3(0, 0, m_inputDownAngle + deltaAngle);
         }
-        
     }
 
     private Vector3 _GetMouseDirection(Vector3 mousePos)
@@ -56,7 +55,7 @@ public class GroupController : MonoBehaviour
 
     private float _GetDeltaAngleSlide()
     {
-        return (Input.mousePosition.x - m_inputDownPosition) / Screen.width * 720f;
+        return (Input.mousePosition.x - m_inputDownPosition) / Screen.width * GameCtrl.Inst.Settings.slideRange;
     }
 
     private float _GetDeltaAngleRotate()
