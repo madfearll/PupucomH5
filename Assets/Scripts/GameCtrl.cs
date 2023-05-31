@@ -119,6 +119,11 @@ public class GameCtrl : MonoBehaviour
     {
         if (GameEnd) return;
         _UpdateGameState();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     private void _UpdateGameState()

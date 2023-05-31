@@ -9,6 +9,7 @@ public class GroupController : MonoBehaviour
     private float m_inputDownAngle;
     private BubbleGroup m_group;
     private Vector2 m_inputDownPosition;
+    private GameSettings m_settings;
 
     private void Awake()
     {
@@ -17,7 +18,7 @@ public class GroupController : MonoBehaviour
 
     private void Start()
     {
-        
+        m_settings = GameCtrl.Inst.Settings;
     }
 
     // Update is called once per frame
@@ -91,14 +92,18 @@ public class GroupController : MonoBehaviour
 
     private float _GetDeltaAngleSlide()
     {
-        return (Input.mousePosition.x - m_inputDownPosition.x) / Screen.width * GameCtrl.Inst.Settings.slideRange;
+        return (Input.mousePosition.x - m_inputDownPosition.x) / Screen.width * m_settings.slideRange;
     }
 
     private float _GetDeltaAngleRotate()
     {
         var screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
         var inputDir = Input.mousePosition - screenCenter;
+        #if UNITY_STANDALONE
         var deltaAngle = Vector2.SignedAngle(m_inputDownDir, inputDir);
+        #else
+        var deltaAngle = Vector2.SignedAngle(m_inputDownDir, inputDir) * m_settings.mobileRotateScale;
+        #endif
         return deltaAngle;
     }
 

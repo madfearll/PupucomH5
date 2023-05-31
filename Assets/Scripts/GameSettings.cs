@@ -13,6 +13,8 @@ public class GameSettings : ScriptableObject
     public List<RatingInfo> ratingInfoList;
     public float boarderRadius = 6.5f;
     public EInputType inputType = EInputType.Rotate;
+    [ShowIf("@inputType == EInputType.Rotate")] [Min(1)]
+    public float mobileRotateScale = 6f;//移动端全屏旋转很难受，需要加倍率优化玩家体验
     [ShowIf("@inputType == EInputType.Slide")] public float slideRange = 360f;
 
     [Title("effect")]
