@@ -48,11 +48,18 @@ public class GameCtrl : MonoBehaviour
     [SerializeField] private TMP_Text _rating;
     [SerializeField] private TMP_Text _gameEndScore;
     [SerializeField] private TMP_Text _bestScore;
+    
+    //stick ui
+    [SerializeField] private GameObject _stickUI;
+    [SerializeField] private RectTransform _joystick;
 
     public static GameCtrl Inst { get; private set; }
 
     public GameSettings Settings => _settings;
     public BubbleGroup Group { get; set; }
+    public GameObject StickUI => _stickUI;
+    public RectTransform Joystick => _joystick;
+    public EInputType InputType => _settings.inputType;
     private int m_score;
 
     public int Score
@@ -89,7 +96,7 @@ public class GameCtrl : MonoBehaviour
     {
         Inst = this;
         m_pool = new GameObject("Pool").transform;
-        
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
@@ -103,6 +110,7 @@ public class GameCtrl : MonoBehaviour
         //     .SetLoops(-1, LoopType.Restart);
 
         _cross.gameObject.SetActive(false);
+        StickUI.SetActive(false);
 
         _restartButton.onClick.AddListener(RestartGame);
     }
@@ -224,9 +232,10 @@ public class GameCtrl : MonoBehaviour
         Despawn(component.gameObject);
     }
 
-    public void PlaySfx(string sfx)
+    public void PlaySfx(string sfx, float volume = 0.8f)
     {
-        
+        var audioItem = Spawn<AudioItem>("AudioItem");
+        audioItem.Play(sfx, volume);
     }
     
     public void ApplyCameraImpulse(Vector2 vel)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 public class BubbleItem : ColorItem, IPoolable
 {
@@ -13,7 +14,9 @@ public class BubbleItem : ColorItem, IPoolable
     protected BubbleGroup m_group;
     protected Rigidbody2D m_body;
     protected Transform m_root;
-
+    
+    private const float TIME_STEP = 1f / 300f;//更小的step模拟效果更好的弹力
+    private float m_deltaTime = 0;
     private float m_spring;
     private Vector2 m_springForce;
     private Vector2 m_springVelocity;
@@ -161,17 +164,28 @@ public class BubbleItem : ColorItem, IPoolable
     private void _UpdateSpring()
     {
         if (!m_group) return;
-        Vector2 spring = -m_settings.spring * m_root.localPosition;
-        var acc = spring + m_springForce;
-        m_springVelocity = m_settings.damp * (m_springVelocity + acc);
-        m_root.localPosition += (Vector3) m_springVelocity * Time.deltaTime;
-        m_springForce = Vector3.zero;
 
+        m_deltaTime += Time.deltaTime;
+        var localPosition = m_root.localPosition;
+        while (m_deltaTime > TIME_STEP)
+        {
+            m_deltaTime -= TIME_STEP;
+            Vector2 spring = -m_settings.spring * localPosition;
+            var acc = spring + m_springForce;
+            m_springVelocity = m_settings.damp * (m_springVelocity + acc);
+            localPosition += (Vector3) m_springVelocity * TIME_STEP;
+            m_springForce = Vector3.zero;
+        }
+        m_root.localPosition = localPosition;
+        
         //加一点缩放增强Q弹的感觉
         var maxVel = 20f;
         if (m_springVelocity.sqrMagnitude > 0.01f)
         {
-            m_root.localScale = Vector3.one + (Vector3) (m_springVelocity / maxVel);
+            var scale = Vector3.one + (Vector3) (m_springVelocity / maxVel);
+            scale.x = Mathf.Clamp(scale.x, 0.7f, 1.3f);
+            scale.y = Mathf.Clamp(scale.y, 0.7f, 1.3f);
+            m_root.localScale = scale;
         }
         else
         {
@@ -205,7 +219,7 @@ public class BubbleItem : ColorItem, IPoolable
         transform.DOLocalMove(targetPos, 0.1f);
         OnInsert();
         m_group.ApplyImpact(m_group.CellToWorld(cellPos), m_settings.stickImpactForce * impactSpeed / 5f);//temp，假定球的最大速度为5
-        GameCtrl.Inst.PlaySfx(Constants.SFX_GENERATE);
+        GameCtrl.Inst.PlaySfx(Constants.SFX_STICK + Random.Range(1, 3), 0.4f);
     }
     
     private void _AddScore()

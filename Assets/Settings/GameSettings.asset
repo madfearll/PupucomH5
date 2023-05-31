@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a81cb90f4482a4fb0d450ad278ef90, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  spawnDistance: 10
+  spawnDistance: 12
   levelInfoList:
   - time: 0
     spawnIntervalMin: 1
@@ -191,8 +191,8 @@ MonoBehaviour:
     rating: SSS+
     color: {r: 1, g: 0, b: 0, a: 1}
   boarderRadius: 6.5
-  inputType: 0
-  slideRange: 360
+  inputType: 2
+  slideRange: 800
   spring: 1
   damp: 0.98
   maxForce: 8

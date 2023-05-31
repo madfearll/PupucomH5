@@ -169,8 +169,8 @@ public class BubbleGroup : MonoBehaviour
         }
         pos /= m_matched.Count;
         GameCtrl.Inst.ApplyCameraImpulse((pos - transform.position).normalized * 1.5f);
-        
-        GameCtrl.Inst.PlaySfx(Constants.SFX_MATCH);
+
+        GameCtrl.Inst.PlaySfx(Constants.SFX_MATCH, 0.5f);
     }
 
     private void _RefreshDisconnectedBubbles()
