@@ -64,7 +64,7 @@ MonoBehaviour:
     speedMax: 4.5
   - time: 120
     spawnIntervalMin: 0.8
-    spawnIntervalMax: 1
+    spawnIntervalMax: 1.1
     colorCount: 4
     spawnPositionList: 020000000600000003000000070000000500000001000000
     spawnRange: 120
@@ -72,7 +72,7 @@ MonoBehaviour:
     speedMax: 4.5
   - time: 160
     spawnIntervalMin: 0.8
-    spawnIntervalMax: 1
+    spawnIntervalMax: 1.1
     colorCount: 5
     spawnPositionList: 020000000600000003000000070000000500000001000000
     spawnRange: 120
@@ -80,23 +80,23 @@ MonoBehaviour:
     speedMax: 4.5
   - time: 220
     spawnIntervalMin: 0.8
+    spawnIntervalMax: 1.1
+    colorCount: 5
+    spawnPositionList: 020000000600000003000000070000000500000001000000
+    spawnRange: 120
+    speedMin: 4.5
+    speedMax: 4.5
+  - time: 340
+    spawnIntervalMin: 0.7
     spawnIntervalMax: 1
     colorCount: 5
     spawnPositionList: 020000000600000003000000070000000500000001000000
     spawnRange: 120
     speedMin: 4.5
     speedMax: 5
-  - time: 340
-    spawnIntervalMin: 0.6
-    spawnIntervalMax: 0.8
-    colorCount: 5
-    spawnPositionList: 020000000600000003000000070000000500000001000000
-    spawnRange: 120
-    speedMin: 4.5
-    speedMax: 5
   - time: 520
-    spawnIntervalMin: 0.6
-    spawnIntervalMax: 0.8
+    spawnIntervalMin: 0.7
+    spawnIntervalMax: 1
     colorCount: 6
     spawnPositionList: 020000000600000003000000070000000500000001000000
     spawnRange: 120
@@ -104,23 +104,23 @@ MonoBehaviour:
     speedMax: 5
   - time: 880
     spawnIntervalMin: 0.6
-    spawnIntervalMax: 0.8
+    spawnIntervalMax: 0.9
     colorCount: 6
     spawnPositionList: 020000000600000003000000070000000500000001000000
     spawnRange: 120
     speedMin: 5
-    speedMax: 5.5
+    speedMax: 5
   - time: 1240
     spawnIntervalMin: 0.6
-    spawnIntervalMax: 0.8
+    spawnIntervalMax: 0.9
     colorCount: 6
     spawnPositionList: 020000000600000003000000070000000500000001000000
     spawnRange: 120
-    speedMin: 5.5
+    speedMin: 5
     speedMax: 6
   - time: 1600
     spawnIntervalMin: 0.6
-    spawnIntervalMax: 0.8
+    spawnIntervalMax: 0.9
     colorCount: 6
     spawnPositionList: 020000000600000003000000070000000500000001000000
     spawnRange: 120
@@ -128,7 +128,7 @@ MonoBehaviour:
     speedMax: 8
   - time: 2000
     spawnIntervalMin: 0.6
-    spawnIntervalMax: 0.8
+    spawnIntervalMax: 0.9
     colorCount: 6
     spawnPositionList: 020000000600000003000000070000000500000001000000
     spawnRange: 120
@@ -191,7 +191,7 @@ MonoBehaviour:
     rating: SSS+
     color: {r: 1, g: 0, b: 0, a: 1}
   boarderRadius: 6.5
-  inputType: 2
+  inputType: 0
   slideRange: 800
   spring: 1
   damp: 0.98
